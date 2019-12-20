@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="de">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      <title>HowTo: Mini-Beispiel "Leaflet Karte mit Marker"</title>
+	  <!-- leaflet.css und leaflet.js von externer Quelle einbinden -->
+	  
+	  <link rel="stylesheet" href="/Web/leaflet/leaflet.css" />
+	  <script src="/Web/leaflet/leaflet.js"></script>
+
+   </head>
+   <body>
+	   	<header>
+			   <p>Missratenes Mischmasch ding mit leaflet</p>
+			   <button id="los" style="height: 10%; width: 44.6%;">Position Now</button>
+			   <button id="go" style="height: 10%; width: 44.6%;">Position Tracking</button>
+		</header>
+		<div id='meineKarte' style='height: 670px; width: 90%;'></div>
+		<!-- OSM-Basiskarte einfügen und zentrieren -->
+		<script type='text/javascript'>
+			var lon = 48.54;
+			var lat = 10.96;
+
+			var Karte = L.map('meineKarte').setView([lon, lat], 14);
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+			'attribution':  'Kartendaten &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Mitwirkende',
+			'useCache': true
+			}).addTo(Karte);
+		
+		</script>
+		<script type='text/javascript'>
+			//Event Start function positionnow
+			var button =document.getElementById('los'); 
+            button.addEventListener ('click', positionnow);
+
+            //Event Start function Game_Start
+			var button =document.getElementById('go'); 
+            button.addEventListener ('click', game_start);
+					
+			function positionnow() {
+				//Positionsermittlung
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(showposition);
+				} else { 
+					ausgabe.innerHTML = 'Ihr Browser unterstützt keine Geolocation.';
+				}
+
+				function showposition(position) {
+					var marker = L.marker([position.coords.latitude, position.coords.longitude]).addTo(Karte);
+				}
+			}
+
+            function game_start() {
+                
+                //Objekt um die initialisierung nur einmal auszuführen
+                var idx = { index:"0"};
+
+                function onPositionReceived(position, index) {
+					var marker = new L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.Karte);
+
+					if(!marker) {
+						var marker = new L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.Karte);
+					} else {
+						marker.remove();
+
+						var marker = new L.marker([position.coords.latitude, position.coords.longitude]).addTo(this.Karte);
+						console.log(position);
+					}
+                   
+                }
+				
+				function locationNotReceived(positionError){
+					console.log(positionError);
+				}
+
+				options = {
+					enableHighAccuracy: true
+				}
+
+				if(navigator.geolocation){
+					navigator.geolocation.getCurrentPosition(onPositionReceived, locationNotReceived);
+
+					var watch = navigator.geolocation.watchPosition(onPositionReceived, locationNotReceived, options);
+				}
+			} 
+			/* if(idx.index == "1"){
+                        //position in der console ausgeben
+                        console.log(position);
+						if(!marker) {
+							var location_marker = new L.marker([position.coords.longitude, position.coords.latitude], {icon: location_marker}).addTo(this.Karte);
+						}
+                        
+                    } else {
+
+						var location_marker = L.icon({
+						iconUrl: 'leaflet/images/location.png',
+
+						iconSize:     [10, 10], // size of the icon
+						popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+					});
+					var lon = position.coords.longitude;
+					var lat = position.coords.latitude;
+					var location_marker = new L.marker([position.coords.longitude, position.coords.latitude], {icon: location_marker}).addTo(this.Karte);
+
+                        //index die 1 zuweisen damit beim nächsten func aufruf er in den if teil geht 
+                        idx.index = "1";
+                    }*/
+		</script>
+		
+  	</body>
+</html>

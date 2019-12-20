@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset='utf-8' />
+			<title>Locate the user</title>
+			<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+			<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+			<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
+				<style>
+					body { margin:0; padding:0; }
+					#map { position:absolute; top:0; bottom:0; width:100%; }
+					#targets {
+						width: 20px;
+						height: 20px;
+					}
+					footer {
+						height: 10vh;
+						width: 100%;
+						padding-top: 90vh;
+					}
+					.nav {
+						width: 33.33%;
+						height: 10vh;
+						float: left;
+						background-color: white;
+						border-top: 10px solid gray;
+						border-right: 0;
+						border-left: 0;
+						border-bottom: 10px solid gray;
+					}
+				</style>
+		</head>
+<body>
+<div id='map' style="height: 86vh; margin-top: 4vh;"></div>
+		<script>
+			//Mapbox token meines acc
+			mapboxgl.accessToken = 'pk.eyJ1IjoiYW5kOSIsImEiOiJjazA2bTlicTAwZ2htM2NxcmdieGlnMjFsIn0.BMalSlK9slCgAF_8KpqhKA';
+
+			var map = new mapboxgl.Map({
+			container: 'map', //ID des Kontainers
+			style: 'mapbox://styles/mapbox/streets-v11',
+			center: [10.96, 48.54], // start position
+			zoom: 16 // start zoom
+			});
+
+			var position = [0, 0];
+
+			//Fügt die watch position funktion hinzu(oben rechts)
+			map.addControl(new mapboxgl.GeolocateControl({positionOptions: {enableHighAccuracy: true}, trackUserLocation: true}));
+
+			//Event Start function Game_Start
+			var button =document.getElementById('los'); 
+			button.addEventListener ('click', game);
+
+			//Neue Objakte 
+			var target = new Object();
+			var index = new Object();
+
+			//Für die ausgabe der Ziel nachricht 
+			//0 wird zugewiesen damit er bei erstenmal in die Schleife rein geht
+			index.idx = 0;
+
+			function game() {
+				
+				//Die funktion ist für die Fehler ausgabe des GPS zuständig wenn der Standort 
+				//nicht abgerufen werden kann. Fehler werden in der Konsole ausgegeben
+				function zeigeFehler(error){
+					switch(error.code) {
+					case error.PERMISSION_DENIED:
+						console.log("Benutzer lehnte Standortabfrage ab.");
+						break;
+					case error.POSITION_UNAVAILABLE:
+						console.log("Standortdaten sind nicht verfügbar.");
+						break;
+					case error.TIMEOUT:
+						console.log("Die Standortabfrage dauerte zu lange (Time-out).");
+						break;
+					case error.UNKNOWN_ERROR:
+						console.log("unbekannter Fehler.");
+						break;
+					}
+				}
+
+				//optionen für die Positionsabfrage 
+				options = {
+					enableHighAccuracy: true
+				}
+
+				//Positionsabfrage
+				if(navigator.geolocation){
+					navigator.geolocation.getCurrentPosition(zeigePosition, zeigeFehler,{timeout: 3000}); //3 sek timeout nach jeder abfrage
+
+					var watch = navigator.geolocation.watchPosition(zeigePosition, zeigeFehler, options);
+				}
+
+				function zeigePosition(position) {
+
+					//aktuelle Position
+					var l1 = position.coords.longitude;
+					var b1 = position.coords.latitude;
+
+					var radius=6378.16;
+
+					var Ergebnis = Math.acos(Math.sin(b1*2*Math.PI/360)*Math.sin(b2*2*Math.PI/360)+Math.cos(b1*2*Math.PI/360)*Math.cos(b2*2*Math.PI/360)*Math.cos((l2-l1)*2*Math.PI/360))*radius;
+
+					//Das Ergebnis wird in der Konsole ausgegeben
+					console.log(Ergebnis);
+
+					//In Ergebnis steht die Entfernung zwischen meiner akt. Position
+					//und dem Ziel. Wenn die Entfernung kleiner als 1 km? ist dann Ziel
+					//erreicht. Somit hat man einen Kreis in den man rein gehen muss
+					if(Ergebnis <= 1)
+					{
+						//prüft ob die schleife schon einmal durchlaufen wurde 
+						//wenn nicht wird alert nachricht ausgeben und idx auf 1 gesetzt
+						//wenn ja dann ist idx auf 1 gesetzt und die schleife wird nicht durchlaufen
+						if(index.idx == 0)
+						{
+							alert("Ziel erreicht!");
+							index.idx = 1;
+						} 
+					}
+
+					//gibt die aktuelle Position in der Konsole aus
+					console.log(position);
+				}
+
+				//
+				//Dragable marker
+				//
+				var marker = new mapboxgl.Marker({
+					draggable: true
+				})
+				.setLngLat([position.coords.latitude, position.coords.longitude])
+				.addTo(map);
+				
+				function onDragEnd() {
+				var target = marker.getLngLat();
+				coordinates.style.display = 'block';
+				coordinates.innerHTML = 'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+				}
+				
+				marker.on('dragend', onDragEnd);
+			}//Klammer zum schließen der game function
+		</script>
+	<footer>
+		<button id='los' class="nav" style="border-right: 2px solid gray;">Start the game</button>
+		<button class="nav" style="border-right: 2px solid gray;"></button>
+		<button class="nav"></button>
+	</footer>
+	</body>
+</html>

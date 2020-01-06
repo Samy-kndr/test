@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html>
 	<head>
-
 		<title>Home</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="stylesheet_standard.css" media="screen" type="text/css">
         <link rel="stylesheet" href="stylesheet_all.css" media="screen" type="text/css">
+        <link rel="manifest" href="manifest.json">
+        <!--Registrierungsscript des Service-Workers-->
+        <script src="reg.js"></script>
         <style type="text/css" media="screen">
             #main_content {
-                background-color: rgba(0,213,7,0.58);
+                background-color: rgba(110, 110, 110, 0.58);
             }
         </style>
-    </head>
+	</head>
 	<body>
-        <!--nutte-->
         <header>
             <div id="header_name">
                 <h3 id="Ub_username">Username</h3>
                 <h1 id="Ub_site">Home</h1>
             </div>
             <div id="header_picture">
-                <img src=".\bilder\images_header\profile.png" style="height: 80%; width: 80%;">
+                <a href="registration.html" class="footer_a"><img src=".\bilder\images_header\profile.png" style="height: 80%; width: 80%;"></a>
             </div>
         </header>
         <main>
@@ -28,12 +29,12 @@
 
             </div>
             <div id="main_content">
-                    <a class="a_margin" href="Mode1_selection.html"><button class="main_main_content_buttons">Modus 1</button></a>
-                    <a class="a_margin" href="notavaiable.html"><button class="main_main_content_buttons">Modus 2</button></a>
-                    <a class="a_margin" href="notavaiable.html"><button class="main_main_content_buttons">Modus 3</button></a>
-                    <a class="a_margin" href="notavaiable.html"><button class="main_main_content_buttons">Modus 4</button></a>
-                    <a class="a_margin" href="notavaiable.html"><button class="main_main_content_buttons">Modus 5</button></a>
-                    <a class="a_margin" href="notavaiable.html"><button class="main_main_content_buttons">Modus 6</button></a>
+                <a class="a_margin" href="Mode1_selection.html"><button class="main_main_content_buttons">Lauf - Training</button></a>
+                <a class="a_margin" href="notavaiable.html"><button class="main_main_content_buttons">Modus 2</button></a>
+                <a class="a_margin" href="notavaiable.html"><button class="main_main_content_buttons">Modus 3</button></a>
+                <a class="a_margin" href="notavaiable.html"><button class="main_main_content_buttons">Modus 4</button></a>
+                <a class="a_margin" href="notavaiable.html"><button class="main_main_content_buttons">Modus 5</button></a>
+                <a class="a_margin" href="notavaiable.html"><button class="main_main_content_buttons">Modus 6</button></a>
             </div>
             <div id="main_rightside">
 

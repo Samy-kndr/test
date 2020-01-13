@@ -99,7 +99,7 @@
                             }).addTo(Karte);
                         
                         // var aktStandort wird der pointer zugewiesen
-                        var aktStandort = L.marker(lat,lon).addTo(Karte);
+                        var aktStandort = L.marker([lat,lon]).addTo(Karte);
                     }
                     
                     function positionerror(error) {

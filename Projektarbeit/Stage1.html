@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html>
+    <!--
+        Problem: 
+        -   Wenn auf dem Handy auf zugriff zulassen geklickt wird und das GPS eingeschaltet
+            wird muss manuell die Seite neu geladen werden 
+                => Der Benutzer soll die seite nicht neu laden müssen -> soll automatisch gehen 
+    -->
 	<head>
 		<title>Home</title>
         <meta charset="UTF-8">
@@ -13,6 +19,8 @@
             #main_content {
                 width: 100vw;
             }
+            /*CSS für den Container in dem Container "main_content"*/
+            /*Regelt nur die anordnung der schrift und des Buttons sonst nichts*/
             #main_content_fail {
                 height: 100%;
                 width: 100%;
@@ -55,7 +63,7 @@
         <main>
             <div id="main_content">
                 <div id='map' style='height: 100%; width: 100%;'></div>
-                <!-- OSM-Basiskarte einfügen und zentrieren -->
+                <!-- OSM-Basiskarte einfügen und auf die aktuelle Position zentrieren -->
                 <script type='text/javascript'>
                     /*Die Standort Abfrage das erstemal aufrufen*/
                     getposition();
@@ -70,13 +78,13 @@
                         /***Positionsermittlung funktioniert nicht***/
                         } else {
                             //Im div-Container mit der id "main_content" wird der unten stehende Text ausgegeben
-                            document.getElementById("main_content").textContent = '<p id=\"Stage1_dynamic_p\">Ihr Browser unterstützt keine Geolocation!</p>';
+                            document.getElementById("main_content").innerHTML = '<p id=\"Stage1_dynamic_p\">Ihr Browser unterstützt keine Geolocation!</p>';
                         }
                     }
                     //Die Varibalen anlegen und Standardwerte zuweisen
                     var lat = 0;
                     var lon = 0;
-                    var zoom = 16;
+                    var zoom = 11;
 
                     function positionsuccess(position) {
                         //Den Variablen werden längen und breiten Grad zugewiesen
@@ -89,6 +97,13 @@
                             'attribution':  'Kartendaten &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Mitwirkende',
                             'useCache': true
                             }).addTo(Karte);
+
+                            // Marker wird auf die postion 0,0 (auf der karte) gesetzt
+                            const marker = L.marker([0,0]).addTo(Karte);
+
+                            // Marker wird auf den neuesten stand gebracht
+                            marker.setLatLng([lat,lon]);
+
                     }
                     
                     function positionerror(error) {
@@ -102,7 +117,7 @@
                         /***Bei allen anderen Error Codes***/
                         } else {
                             //Es wird "Error: " ausgegeben und der jeweilige Errorcode
-                            document.getElementById("main_content").textContent = "<p id=\"Stage1_dynamic_p\">Error: " + 
+                            document.getElementById("main_content").innerHTML = "<p id=\"Stage1_dynamic_p\">Error: " + 
                             error.message + "</p>"
                         }
                     };
@@ -110,7 +125,7 @@
                     function enable() {
                         //Gibt den Text und den Button aus 
                         //Werden oben noch mit CSS gestaltet
-                        document.getElementById("main_content").textContent = "<div id=\"main_content_fail\"><p id=\"Stage1_dynamic_p\">Sie m&uuml;ssen " + 
+                        document.getElementById("main_content").innerHTML = "<div id=\"main_content_fail\"><p id=\"Stage1_dynamic_p\">Sie m&uuml;ssen " + 
                             "die Standord Abfrage zulassen, um dieses Training verwenden zu k&ouml;nnen!</p>" + 
                             "<button id=\"button_erlauben\" onclick=\"getposition()\">Zugriff Erlauben</button></div>";
                     }

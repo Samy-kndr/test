@@ -97,9 +97,13 @@
                             'attribution':  'Kartendaten &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> Mitwirkende',
                             'useCache': true
                             }).addTo(Karte);
-                        
-                        // var aktStandort wird der pointer zugewiesen
-                        var aktStandort = L.marker([lat,lon]).addTo(Karte);
+
+                            // Marker wird auf die postion 0,0 (auf der karte) gesetzt
+                            const marker = L.marker([0,0]).addTo(Karte);
+
+                            // Marker wird auf den neuesten stand gebracht
+                            marker.setLatLng([lat,lon]);
+
                     }
                     
                     function positionerror(error) {

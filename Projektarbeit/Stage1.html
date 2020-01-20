@@ -104,6 +104,13 @@
                             // Marker wird auf den neuesten stand gebracht
                             marker.setLatLng([lat,lon]);
 
+                            // Radius wird hinzugefügt
+                            var circle = L.circle([lat,lon], {
+                                color: 'red',
+                                fillOpacity: 0,
+                                radius: 1000
+                            }).addTo(Karte);
+
                     }
                     
                     function positionerror(error) {

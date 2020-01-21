@@ -9,6 +9,10 @@ Noch zu ergänzen/Probleme:
 //Hier stehen all seiten die gecached werden sollen
 const staticAssets = [
     './',
+    './bilder/images_footer/back.png',
+    './bilder/images_footer/home.png',
+    './bilder/images_footer/location.png',
+    './bilder/images_header/profile.png',
     './reg.js',
     './stylesheet_standard.css',
     './stylesheet_all.css',

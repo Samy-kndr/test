@@ -10,6 +10,8 @@
     height: 400px;
     width: 400px;
     border-radius: 40px;
+    font-size: 2rem;
+    font-weight: 700;
 }
 .a_margin {
     margin: 5%;

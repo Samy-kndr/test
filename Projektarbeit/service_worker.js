@@ -12,11 +12,13 @@ const staticAssets = [
     './reg.js',
     './stylesheet_standard.css',
     './stylesheet_all.css',
+    './stylesheet_index.css',
     './index.html',
     './location.html',
     './notavaiable.html',
-    './Mode1_selection.html',
-    './Stage1.html'
+    './training_1_selection.html',
+    './Stage1.html',
+    './training.html'
 ];
 
 //Eventlistener für das "install" Event

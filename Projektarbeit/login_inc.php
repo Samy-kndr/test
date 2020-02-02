@@ -6,15 +6,18 @@ if (isset($_POST['submit'])) {
 
     include 'db.php';
 
-    $nickname = mysqli_real_escape_string($connection, $_POST['nickname']);
-    $password = mysqli_real_escape_string($connection, $_POST['password']);
+    $nickname = mysqli_real_escape_string($connection, $_POST['benutzername']);
+    $password = mysqli_real_escape_string($connection, $_POST['passwort']);
 
     // Error handlers
     // Existiert der Benutzername?
-    $sql = "SELECT * FROM user_acc WHERE user_nickname = '$nickname'";
+    $sql = "SELECT * FROM user_data WHERE user_benutzername = '$nickname'";
+    
     $result = mysqli_query($connection, $sql);
+    
     // mysqli_num_rows gibt die Anzahl an, wie oft die Bedingung von $sql erfüllt wird
     $resultCheck = mysqli_num_rows($result);
+    
     if ($resultCheck < 1) {
         // ?login=user gibt die Information an die index.php weiter
         header("Location: login.php?login=user");
@@ -26,6 +29,7 @@ if (isset($_POST['submit'])) {
             // De-Hashing des Passwortes 
             // password_verify($password, $row['password']) gibt true oder false zurück
             $hashedPassword = password_verify($password, $row['user_passwort']);
+            
             if ($hashedPassword == false) {
                 header("Location: login.php?login=password");
                 exit();

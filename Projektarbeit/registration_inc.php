@@ -4,7 +4,7 @@ session_start();
 if (isset($_POST['submit'])) {
 
 /*Verbindung zur Datenbank herstellen*/
-  $connection = mysqli_connect('localhost', 'root', '', 'projektarbeit');
+include 'db.php';
   
  /*mysqli_real_escape_string filtert sonderzeichen, sodass nur text in die datenbank kommt*/
   $firstname = mysqli_real_escape_string($connection, $_POST['vorname']);

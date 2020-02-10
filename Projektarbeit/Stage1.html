@@ -54,7 +54,7 @@
         <header>
             <div id="header_name">
                 <h3 id="Ub_username">Username</h3>
-                <h1 id="Ub_site">Home</h1>
+                <h1 id="Ub_site">Stage 1</h1>
             </div>
             <div id="header_picture">
                 <img src=".\bilder\images_header\profile.png" style="height: 80%; width: 80%;">
@@ -103,6 +103,14 @@
 
                             // Marker wird auf den neuesten stand gebracht
                             marker.setLatLng([lat,lon]);
+
+                            // Radius wird angezeigt 
+                            var radius = L.circle([lat, lon], {
+                                color: 'red',
+                                fillColor: '#f03',
+                                fillOpacity: '0.2',
+                                radius: 1000
+                            }).addTo(Karte);
 
                     }
                     

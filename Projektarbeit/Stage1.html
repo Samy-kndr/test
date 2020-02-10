@@ -112,6 +112,11 @@
                                 radius: 1000
                             }).addTo(Karte);
 
+                            var helloPopup = L.popup().setContent('Hello World!');
+
+                        L.easyButton('fa-globe', function(btn, map){
+                            helloPopup.setLatLng(map.getCenter()).openOn(map);
+                        }).addTo( Karte );
                     }
                     
                     function positionerror(error) {
